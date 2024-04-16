@@ -1,0 +1,35 @@
+const { test, expect } = require('@playwright/test');
+
+test('After pressing Edit button, a car should be updated', async ({page}) => {
+    await page.goto('http://localhost:5173/edit/1');
+    var idCell = page.locator('p:has-text("Car Id:1")').first();
+    await expect(idCell).toBeVisible();
+    var nameCell = page.locator('p:has-text("Name:Honda Civic")').first();
+    await expect(nameCell).toBeVisible();
+    var modelCell = page.locator('p:has-text("Model:2022")').first();
+    await expect(modelCell).toBeVisible();
+    var colorCell = page.locator('p:has-text("Color:Black")').first();
+    await expect(colorCell).toBeVisible();
+    var priceCell = page.locator('p:has-text("Price:27000")').first();
+    await expect(priceCell).toBeVisible();
+    await page.fill('input[id="editName"]', 'Toyota Corolla');
+    expect(page.locator('input[id="editName"]').first()).toHaveValue('Toyota Corolla');
+    await page.fill('input[id="editModel"]', '2022');
+    expect(page.locator('input[id="editModel"]').first()).toHaveValue('2022');
+    await page.fill('input[id="editColor"]', 'Black');
+    expect(page.locator('input[id="editColor"]').first()).toHaveValue('Black');
+    await page.fill('input[id="editPrice"]', '24000');
+    expect(page.locator('input[id="editPrice"]').first()).toHaveValue('24000');
+    const submitButton = page.locator('button:has-text("Save")').first();
+    await submitButton.click();
+    idCell = page.locator('p:has-text("Car Id:1")').first();
+    await expect(idCell).toBeVisible();
+    nameCell = page.locator('p:has-text("Name:Toyota Corolla")').first();
+    await expect(nameCell).toBeVisible();
+    modelCell = page.locator('p:has-text("Model:2022")').first();
+    await expect(modelCell).toBeVisible();
+    colorCell = page.locator('p:has-text("Color:Black")').first();
+    await expect(colorCell).toBeVisible();
+    priceCell = page.locator('p:has-text("Price:27000")').first();
+    await expect(priceCell).toBeVisible();
+    });
