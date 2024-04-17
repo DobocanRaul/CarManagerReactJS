@@ -36,12 +36,12 @@ function MotorContainer({motorlist,motorsdata}) {
     const columns = React.useMemo(() => [
   
         {
-          Header: "MotorId",
-          accessor: "motorId"
+          Header: "Motor Type",
+          accessor: "motor_type"
         },
         {
           Header: "HorsePower",
-          accessor: "horsePower"
+          accessor: "horsepower"
         }
       ], []
       );
@@ -71,11 +71,11 @@ function MotorContainer({motorlist,motorsdata}) {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((motor) => (
-              <tr key={motor.motorId}>
-                <td>{motor.motorId}</td>
-                <td>{motor.horsePower}</td>
+              <tr key={motor.id}>
+                <td>{motor.motor_type}</td>
+                <td>{motor.horsepower}</td>
                 <div class="mydiv">
-                  <button onClick={() => {}}>View</button>
+                  <button onClick={() => {navigate(`view/motor/${motor.id}`)}}>View</button>
                   <button onClick={() => {}} >Delete</button>
                 </div>
               </tr>

@@ -7,8 +7,7 @@ import TableContainer  from '../components/TableContainer';
 import axios from 'axios';
 import { useEffect } from 'react';
 import MotorContainer from '../components/MotorContainer';
-function Home({carlist,setCarlist}) {
-    const motorlist=[];
+function Home({carlist,setCarlist,motorlist,setMotorlist}) {
     useEffect(() => {
     axios.get('http://localhost:3000/')
     .then((response) => {
@@ -18,6 +17,17 @@ function Home({carlist,setCarlist}) {
       console.log(error);
     });
   }, []);
+  useEffect(() => {
+    axios.get('http://localhost:3000/motor')
+    .then((response) => {
+      setMotorlist(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  , []);
+
 
   const navigate = useNavigate();
   if(carlist.length > 0){
