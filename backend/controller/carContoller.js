@@ -1,5 +1,29 @@
-var list= require('../data/data');
+
+var motorlist= require('../data/motordata');
 var faker = require('faker');
+
+const fs=require('fs');
+var list = [];
+fs.readFile('data/cardata.json', 'utf8', (err, data) => {
+
+    if (err) {
+        console.error(err)
+        return
+    }
+    list = JSON.parse(data);
+}
+);
+
+function writeToJson(){
+    console.log(list);
+    fs.writeFile('data/cardata.json', JSON.stringify(list), (err) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+    });
+}
+
 function addCarToList(){
     const entity = {
         id: faker.datatype.uuid(),
@@ -9,6 +33,8 @@ function addCarToList(){
         price: faker.datatype.number({ min: 10000, max: 100000 })
       };
     list.push(entity);
+    writeToJson();
+    console.log(list);
 }
 
 const getCarList = (req, res) => {
@@ -42,7 +68,8 @@ const addCar = (req, res) => {
         console.log("Car added successfully");
         list.push(newCar);
         res.json(list);
-    }    
+    }
+    writeToJson();    
 }
 
 const updateCar = (req, res) => {
@@ -59,12 +86,13 @@ const updateCar = (req, res) => {
         }
 
         list[carIndex]= updatedCar;
-        res.json(list);
+        writeToJson();
 
     } 
     else {
         res.status(404).send('Car not found');
     }
+    
 }
 
 const deleteCar = (req, res) => {
@@ -76,6 +104,7 @@ const deleteCar = (req, res) => {
     } else {
         res.status(404).send('Car not found');
     }
+    writeToJson();
 }
 
 module.exports = {

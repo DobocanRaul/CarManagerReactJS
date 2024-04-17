@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 function saveChanges({carId,carName,carModel,carColor,carPrice})
     {
+        console.log("Saving changes!");
         const newCar = {
             id: carId,
             name: carName,

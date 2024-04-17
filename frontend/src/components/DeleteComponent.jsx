@@ -11,7 +11,7 @@ function DeleteComponent({list, setlist, carId, setShowDeleteComponent}) {
         return(
             <div>
             <button onClick={setShowDeleteComponent(false)}>Cancel</button>
-            <button onClick={() => setlist(list.filter(car => car.id !== carId))}>Delete</button>
+            <button onClick={deleteCar(carId)}>Delete</button>
             </div>
         )
 }

@@ -17,7 +17,8 @@ let entities = [];
 
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST']
+  methods: ['GET', 'POST','PUT','DELETE'],
+  credentials:true
 }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,7 +30,7 @@ const server = http.createServer(app); // Create HTTP server
 const io = require('socket.io')(server, {
   cors: {
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST']
+    methods: ['GET', 'POST','PUT','DELETE']
   }
 });
 
@@ -43,7 +44,7 @@ const addEntityPeriodically = () => {
 
 
 
-addEntityPeriodically();
+//addEntityPeriodically();
 
 server.listen(port, () => {
   console.log(`Car Management server is running at http://localhost:${port}`);

@@ -6,8 +6,9 @@ import ChartButton from '../components/ChartButton';
 import TableContainer  from '../components/TableContainer';
 import axios from 'axios';
 import { useEffect } from 'react';
+import MotorContainer from '../components/MotorContainer';
 function Home({carlist,setCarlist}) {
-    
+    const motorlist=[];
     useEffect(() => {
     axios.get('http://localhost:3000/')
     .then((response) => {
@@ -23,7 +24,10 @@ function Home({carlist,setCarlist}) {
   
   return (
     <div class="body divcenter" >
+      <div style={{display:"flex", flexDirection:"column", gap:"10px", marginLeft:"15px"}}>
       <TableContainer carlist={carlist} cardata={carlist}/>
+      <MotorContainer motorlist={motorlist} motorsdata={motorlist}/>
+      </div>
       <div style={{display:"flex",gap:"10px"}}>
       <ChartButton/>
       <AddButton/>
