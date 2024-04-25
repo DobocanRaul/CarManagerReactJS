@@ -1,28 +1,16 @@
 
 var motorlist= require('../data/motordata');
 var faker = require('faker');
-
+const mysql=require("mysql2");
 const fs=require('fs');
 var list = [];
-fs.readFile('data/cardata.json', 'utf8', (err, data) => {
 
-    if (err) {
-        console.error(err)
-        return
-    }
-    list = JSON.parse(data);
-}
-);
-
-function writeToJson(){
-    console.log(list);
-    fs.writeFile('data/cardata.json', JSON.stringify(list), (err) => {
-        if (err) {
-            console.error(err)
-            return
-        }
-    });
-}
+const db=mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"1234",
+    database:"mppdb",
+});    
 
 function addCarToList(){
     const entity = {
@@ -38,73 +26,69 @@ function addCarToList(){
 }
 
 const getCarList = (req, res) => {
-    if(list.length > 0){
-     res.json(list);}
-     else {
-         res.status(404).send('No cars found');
-     }
+    const query="SELECT * FROM Cars";
+    db.query(query,(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.json(result);
+            }});
 }
+    
 
 const getCarById = (req, res) => {
     const id = req.params.id;
-    const car = list.find(car => car.id === id);
-    if(car){
-        res.json(car);
-    } else {
-        res.status(404).send('Car not found');
-    }
+    const query="SELECT * FROM Cars WHERE id=?";
+    db.query(query,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            res.json(result);
+            }});
 }
 
 const addCar = (req, res) => {
     const newCar = req.body;
     //Verify if car already exists or if the car has all the required fields
-    var index;
-    index = list.findIndex(car => car.id === newCar.id);
-    if(index !== -1 ){
-        res.status(400).send('Car already exists');
-    } else if(!newCar.id || !newCar.name || !newCar.model || !newCar.color || !newCar.price){
-        res.status(400).send('Please provide all required fields');
-    } else {
-        console.log("Car added successfully");
-        list.push(newCar);
-        res.json(list);
-    }
-    writeToJson();    
+    const query="Insert into Cars (id,name,model,color,price,motorId) values(?,?,?,?,?,?)";
+    db.query(query,[newCar.id,newCar.name,newCar.model,newCar.color,newCar.price,newCar.motorId],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            res.json(newCar);
+            }});  
 }
 
 const updateCar = (req, res) => {
     const passedCar=req.body;
-    const car = list.filter(car => car.id === passedCar.id);
-    const carIndex = list.findIndex(car => car.id === passedCar.id);
-    if(car){
-        const updatedCar = req.body;
-        if (!updatedCar.name || !updatedCar.model || !updatedCar.color || !updatedCar.price){
-            res.status(400).send('Please provide all required fields');
+    const query="UPDATE Cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
+    db.query(query,[passedCar.name,passedCar.model,passedCar.color,passedCar.price,passedCar.motorId,passedCar.id],(err,result)=>{
+        if(err){
+            console.log(err);
         }
-        if(typeof updatedCar.price !== 'number'){
-            res.status(400).send('Price should be a number');
-        }
-
-        list[carIndex]= updatedCar;
-        writeToJson();
-
-    } 
-    else {
-        res.status(404).send('Car not found');
-    }
+        else{
+            console.log(result);
+            res.json(passedCar);
+            }});
     
 }
 
 const deleteCar = (req, res) => {
     const id = req.params.id;
-    const car = list.find(car => car.id === id);
-    if(car){
-        list = list.filter(car => car.id !== id);
-        res.json(list);
-    } else {
-        res.status(404).send('Car not found');
-    }
-    writeToJson();
+    const query="DELETE FROM Cars WHERE id=?";
+    db.query(query,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            res.json(result);
+            }});
 }
 
 module.exports = {

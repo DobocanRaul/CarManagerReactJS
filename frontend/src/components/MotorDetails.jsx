@@ -6,7 +6,7 @@ function MotorDetails({MotorId}) {
     useEffect(() => {
         axios.get(`http://localhost:3000/motor/${MotorId}`)
         .then((response) => {
-            setMotor(response.data);
+            setMotor(response.data[0]);
         })
         .catch((error) => {
             console.log(error);

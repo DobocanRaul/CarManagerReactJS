@@ -1,96 +1,80 @@
 var faker = require('faker');
-
+const mysql=require("mysql2");
 const fs=require('fs');
 var list = [];
-fs.readFile('data/motordata.json', 'utf8', (err, data) => {
 
-    if (err) {
-        console.error(err)
-        return
-    }
-    list = JSON.parse(data);
-}
-);
+const db=mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"1234",
+    database:"mppdb",
+});    
 
-function writeToJson(){
-    fs.writeFile('data/motordata.json', JSON.stringify(list), (err) => {
-        if (err) {
-            console.error(err)
-            return
-        }
-    });
-}
 
 const getMotorList = (req, res) => {
-    if(list.length > 0){
-     res.json(list);
-    }
-    else {
-         res.status(404).send('No Motors found');
-    }
+    const query="SELECT * FROM Motors";
+    db.query(query,(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.json(result);
+            }});
 }
 
 const getMotorById = (req, res) => {
     const id = req.params.id;
-    const motor = list.find(motor => motor.id == id);
-    if(motor){
-        res.json(motor);
-    } else {
-        res.status(404).send('motor not found');
-    }
+    const query="SELECT * FROM Motors WHERE id=?";
+    db.query(query,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            res.json(result);
+            }});
 }
 
 const addMotor = (req, res) => {
     const newMotor = req.body;
     //Verify if car already exists or if the car has all the required fields
-    var index;
-    index = list.findIndex(motor => motor.id === newMotor.id);
-    if(index !== -1 ){
-        res.status(400).send('Motor already exists');
-    } else if(!newMotor.id || !newMotor.motor_type || !newMotor.horsepower || !newMotor.cubic_cm){
-        res.status(400).send('Please provide all required fields');
-    } else {
-        console.log("Motor added successfully");
-        list.push(newMotor);
-        writeToJson();
-        res.json(newMotor);
-    }
+    const query="Insert into Motors (id,motor_type,horsepower,cubic_cm) values(?,?,?,?)";
+    db.query(query,[newMotor.id,newMotor.motor_type,newMotor.horsepower,newMotor.cubic_cm],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            res.json(result);
+            }});
         
 }
 
 const updateMotor = (req, res) => {
     const passedMotor = req.body;
-    console.log (passedMotor);
-    const motor = list.filter(motor => motor.id == passedMotor.id);
-    const motorIndex = list.findIndex(motor => motor.id == passedMotor.id);
-    if (motor) {
-        const updatedMotor = req.body;
-        if (!updatedMotor.motor_type || !updatedMotor.horsepower || !updatedMotor.cubic_cm) {
-            res.status(400).send('Please provide all required fields');
+    const query="UPDATE Motors SET motor_type=?,horsepower=?,cubic_cm=? WHERE id=?";
+    db.query(query,[passedMotor.motor_type,passedMotor.horsepower,passedMotor.cubic_cm,passedMotor.id],(err,result)=>{
+        if(err){
+            console.log(err);
         }
-        if (typeof updatedMotor.horsepower !== 'number' || typeof updatedMotor.cubic_cm !== 'number') {
-            res.status(400).send('Horsepower and cubic_cm should be numbers');
-        }
-
-        list[motorIndex] = updatedMotor;
-        writeToJson();
-
-    } else {
-        res.status(404).send('Motor not found');
-    }
+        else{
+            console.log(result);
+            res.json(result);
+            }});
 
 }
 
 const deleteMotor = (req, res) => {
     const id = req.params.id;
-    const motor = list.find(motor => motor.id == id);
-    if(motor){
-        list = list.filter(motor => motor.id != id);
-        res.json(list);
-    } else {
-        res.status(404).send('Motor not found');
-    }
-    writeToJson();
+    const query="DELETE FROM Motors WHERE id=?";
+    db.query(query,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            res.json(result);
+            }});
 }
 
 module.exports = {

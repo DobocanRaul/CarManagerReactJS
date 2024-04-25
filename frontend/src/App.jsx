@@ -26,6 +26,7 @@ function App() {
     axios.get('http://localhost:3000/')
     .then((response) => {
       setCarlist(response.data);
+      console.log(response.data);
     })
     .catch((error) => {
       console.log(error);

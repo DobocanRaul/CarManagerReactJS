@@ -6,12 +6,13 @@ function CarDetails({carId,list}) {
     useEffect(() => {
         axios.get(`http://localhost:3000/car/${carId}`)
         .then((response) => {
-            setCar(response.data);
+            setCar(response.data[0]);
         })
         .catch((error) => {
             console.log(error);
         });
     }, []);
+    console.log(car);
     return(
 
     <ul>
