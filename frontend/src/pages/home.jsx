@@ -34,11 +34,11 @@ function Home({carlist,setCarlist,motorlist,setMotorlist}) {
   
   return (
     <div class="body divcenter" >
-      <div style={{display:"flex", flexDirection:"column", gap:"10px", marginLeft:"15px"}}>
+      <div style={{display:"flex", flexDirection:"column", gap:"10px", marginLeft:"30px"}}>
       <TableContainer carlist={carlist} cardata={carlist}/>
       <MotorContainer motorlist={motorlist} motorsdata={motorlist}/>
       </div>
-      <div style={{display:"flex",gap:"10px"}}>
+      <div style={{display:"flex",gap:"10px", alignItems:"center"}}>
       <ChartButton/>
       <AddButton/>
       </div>

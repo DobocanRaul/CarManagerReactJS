@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import io from 'socket.io-client';
 import EditMotor from './pages/editmotor';
 import AddMotor from './pages/addmotor';
+import DeleteMotor from './pages/deletemotor';
 
 
 const EndPoint = 'http://localhost:3000/';
@@ -72,12 +73,13 @@ function App() {
               <Route path="/cars" element={<Home carlist={carlist} setCarlist={setCarlist}/>}/>
               <Route path="/delete/:carId" element={<DeleteConfirmation list={carlist} setlist={setCarlist}/>}/>
               <Route path="/view/:carId" element={<Car list={carlist}/>}/>
-              <Route path="/edit/:carId" element={<EditPage list={carlist} setlist={setCarlist}/>}/>
-              <Route path="/add" element={<AddPage list={carlist} setlist={setCarlist}/>}/>
+              <Route path="/edit/:carId" element={<EditPage list={carlist} setlist={setCarlist} motorlist={motorlist}/>}/>
+              <Route path="/add" element={<AddPage list={carlist} setlist={setCarlist} motorIds={motorlist}/>}/>
               <Route path="/chart" element={<ChartPage list={carlist} />}/>
               <Route path="/view/motor/:motorId" element={<Motor list={motorlist}/>}/>
               <Route path="/edit/motor/:motorId" element={<EditMotor list={motorlist} setlist={setMotorlist}/>}/>
               <Route path="/addmotor" element={<AddMotor list={motorlist} setlist={setMotorlist}/>}/>
+              <Route path="/delete/motor/:motorId" element={<DeleteMotor />}/>
               <Route path='*' element={<NoPage/>}/>
           </Routes>
         </BrowserRouter>

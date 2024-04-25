@@ -60,6 +60,7 @@ const addMotor = (req, res) => {
 
 const updateMotor = (req, res) => {
     const passedMotor = req.body;
+    console.log (passedMotor);
     const motor = list.filter(motor => motor.id == passedMotor.id);
     const motorIndex = list.findIndex(motor => motor.id == passedMotor.id);
     if (motor) {
@@ -82,10 +83,10 @@ const updateMotor = (req, res) => {
 
 const deleteMotor = (req, res) => {
     const id = req.params.id;
-    const motor = motorlist.find(motor => motor.id === id);
+    const motor = list.find(motor => motor.id == id);
     if(motor){
-        motorlist = motorlist.filter(motor => motor.id !== id);
-        res.json(motorlist);
+        list = list.filter(motor => motor.id != id);
+        res.json(list);
     } else {
         res.status(404).send('Motor not found');
     }

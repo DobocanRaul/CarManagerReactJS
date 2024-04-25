@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Car from './car.jsx';
+import {Dropdown} from 'primereact/dropdown';
+import Select from 'react-select';
 
-function AddCar(carId,carName,carModel,carColor,carPrice) {
+function AddCar(carId,carName,carModel,carColor,carPrice,motorId) {
     const newCar = {
         id: carId,
         name: carName,
         model: carModel,
         color: carColor,
-        price: carPrice
+        price: carPrice,
+        motorId: motorId
     }
     axios.post('http://localhost:3000/addCar', newCar).catch((error) => {
         console.log(error);
@@ -20,14 +23,15 @@ function AddCar(carId,carName,carModel,carColor,carPrice) {
 
 }
 
-function AddPage({list,setlist}){
+function AddPage({list,setlist,motorIds}){
     const [carId, setCarId] = useState("");
     const [carName, setCarName] = useState("");
     const [carModel, setCarModel] = useState("");
     const [carColor, setCarColor] = useState("");
+    const [motorId, setMotorId] = useState("");
     const [carPrice, setCarPrice] = useState(0);
     const navigate = useNavigate();
-
+    const ids=motorIds.map((car) => car.id);
     const handleCarId = (e) => {
         setCarId(e.target.value);
     }
@@ -47,6 +51,9 @@ function AddPage({list,setlist}){
     const handleCarPrice = (e) => {
         setCarPrice(e.target.value);
     }
+    const handleMotorId = (e) => {
+        setMotorId(e.target.value);
+    }
 
     return (
         <div>
@@ -62,9 +69,18 @@ function AddPage({list,setlist}){
                 <input id="carColor" type="text" placeholder="Enter car color" onChange={handleCarColor}/>
                 <p>Car Price</p>
                 <input id="carPrice" type="text" placeholder="Enter car price" onChange={handleCarPrice}/>
+                <p>
+                    <p>Motor Id </p>  
+                    <select value={motorId} onChange={handleMotorId} style={{width:"180px"}}>
+                        <option value="" disabled hidden>Select an option</option>
+                        {ids.map((id) => {
+                            return <option value={id}>{id}</option>
+                        })}
+                    </select>
+                </p>
             </section>
             <div class="buttongap">
-            <button onClick={() => {AddCar(carId,carName,carModel,carColor,carPrice);
+            <button onClick={() => {AddCar(carId,carName,carModel,carColor,carPrice,motorId);
              navigate(`/`)
             }
             }>Add</button>

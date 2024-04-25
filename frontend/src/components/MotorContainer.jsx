@@ -76,7 +76,8 @@ function MotorContainer({motorlist,motorsdata}) {
                 <td>{motor.horsepower}</td>
                 <div class="mydiv">
                   <button onClick={() => {navigate(`view/motor/${motor.id}`)}}>View</button>
-                  <button onClick={() => {}} >Delete</button>
+                  <button onClick={() => {navigate(`delete/motor/${motor
+                  .id}`)}} >Delete</button>
                 </div>
               </tr>
             )

@@ -20,6 +20,7 @@ function CarDetails({carId,list}) {
     <p>Car model:{car?.model}</p>
     <p>Car color:{car?.color}</p>
     <p>Car price:{car?.price}</p>
+    <p>Motor id:{car?.motorId}</p>
     </ul>
     );
 }
