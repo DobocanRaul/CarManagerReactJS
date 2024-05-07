@@ -11,11 +11,14 @@ import FirstPageRoundedIcon from '@mui/icons-material/FirstPageRounded';
 import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-
-function TableContainer({carlist,cardata}) {
+import GlobalContext from '../GlobalContext';
+import {useContext} from 'react';
+function TableContainer() {
+    const globalData=useContext(GlobalContext);
+    const carlist=globalData.carlist;
     const rows=carlist;
     const navigate=useNavigate();
-    const data=cardata;
+    const data=carlist;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(4);
 

@@ -4,7 +4,14 @@ import { useState } from "react";
 import HomeButton from '../components/HomeButton.jsx';
 import MotorDetails from '../components/MotorDetails';
 import SaveMotor from '../components/SaveMotor';
-function EditMotor({list}){
+import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
+import {useContext} from 'react';
+import GlobalContext from '../GlobalContext';
+function EditMotor(){
+    NotLoggedInFunction();
+
+    const globalData=useContext(GlobalContext);
+    const list=globalData.motorList;
     const {motorId} = useParams();
     const motor=list.filter(motor => motor.id==motorId);
     const [motorType, setMotorType] = useState(motor[0].motor_type);

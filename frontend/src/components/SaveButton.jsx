@@ -24,7 +24,7 @@ function SaveButton({carName,carModel,carColor,carPrice,motorId}){
     const {carId} = useParams();
     const navigate=useNavigate();
     return(
-        <button onClick={() => {saveChanges({carId,carName,carModel,carColor,carPrice,motorId});navigate(`/view/${carId}`);}}>Save</button>
+        <button onClick={() => {saveChanges({carId,carName,carModel,carColor,carPrice,motorId});navigate(`/cars/view/${carId}`);}}>Save</button>
     )
 }
 

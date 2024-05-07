@@ -2,18 +2,31 @@ import HomeButton from '../components/HomeButton.jsx';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-
-function Add(list,setlist,motorId, MotorType, MotorHorsepower, MotorCubicCm) {
+import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
+import { useContext } from 'react';
+import GlobalContext from '../GlobalContext';
+function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm) {
     const newMotor = {
         id: motorId,
         motor_type: MotorType,
         horsepower: MotorHorsepower,
         cubic_cm: MotorCubicCm
     }
-    setlist([...list, newMotor]);
+    console.log(newMotor);
+    axios.post('http://localhost:3000/addMotor', newMotor).then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.log(error);
+    });
+
 }
 
-function AddMotor({ list, setlist }) {
+function AddMotor() {
+    NotLoggedInFunction();
+
+    const globalData = useContext(GlobalContext);
+    const list=globalData.motors;
+    const setlist=globalData.setMotors;
     const [motorId, setMotorId] = useState("");
     const [motorType, setMotorType] = useState("");
     const [motorHorsepower, setMotorHorsepower] = useState("");
@@ -52,8 +65,8 @@ function AddMotor({ list, setlist }) {
             </section>
             <div class="buttongap">
                 <button onClick={() => {
-                    Add(list,setlist,motorId,motorType,motorHorsepower,motorCubicCm);
-                    navigate(`/`)
+                    Add(motorId,motorType,motorHorsepower,motorCubicCm);
+                    navigate(`/cars`)
                 }}>Add Motor</button>
                 <HomeButton />
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-function CarDetails({carId,list}) {
+function CarDetails({carId}) {
     const [car, setCar] = useState(null);
     useEffect(() => {
         axios.get(`http://localhost:3000/car/${carId}`)

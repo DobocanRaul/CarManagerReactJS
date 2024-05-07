@@ -1,6 +1,7 @@
 import React from 'react';
 import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
+import NotLoggedInFunction from '../functions/NotLoggedInFunction';
 
 function deleteMotor(motorId) {
     axios.delete(`http://localhost:3000/motor/${motorId}`).catch((error) => {
@@ -9,6 +10,7 @@ function deleteMotor(motorId) {
     );
 }
 function DeleteMotor(){
+    NotLoggedInFunction();
     const {motorId} = useParams();
     const navigate = useNavigate();
     return(<div>

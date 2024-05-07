@@ -5,14 +5,23 @@ import { useState } from "react";
 import Home from './home';
 import HomeButton from '../components/HomeButton.jsx';
 import SaveButton from '../components/SaveButton.jsx';
-function EditPage({list,setlist,motorlist}){
+import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
+import {useContext} from 'react';
+import GlobalContext from '../GlobalContext.jsx';
+
+function EditPage(){
+    NotLoggedInFunction();
+
+    const globalData=useContext(GlobalContext);
+    const list=globalData.carlist;
+    const motorlist=globalData.motorlist;
     const {carId} = useParams();
     const car=list.filter(car => car.id==carId);
-    const [carName, setCarName] = useState(car[0].name);
-    const [carModel, setCarModel] = useState(car[0].model);
-    const [carColor, setCarColor] = useState(car[0].color);
-    const [carPrice, setCarPrice] = useState(car[0].price);
-    const [motorId, setMotorId] = useState(car[0].motorId);
+    const [carName, setCarName] = useState(car[0]?.name);
+    const [carModel, setCarModel] = useState(car[0]?.model);
+    const [carColor, setCarColor] = useState(car[0]?.color);
+    const [carPrice, setCarPrice] = useState(car[0]?.price);
+    const [motorId, setMotorId] = useState(car[0]?.motorId);
     const ids=motorlist.map((car) => car.id);
     const handleCarName = (e) => {
         setCarName(e.target.value);

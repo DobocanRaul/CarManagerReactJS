@@ -7,6 +7,9 @@ import Car from './car.jsx';
 import {Dropdown} from 'primereact/dropdown';
 import Select from 'react-select';
 import checkIfConnected from '../components/CheckIfConnected.jsx';
+import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
+import { useContext } from 'react';
+import GlobalContext from '../GlobalContext.jsx';
 function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId) {
     const newCar = {
         id: carId,
@@ -17,12 +20,23 @@ function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId) {
         motorId: motorId
     }
     
-    setlist([...list, newCar]);
+    axios.post(`http://localhost:3000/addCar`, newCar).then((response) => {
+        console.log(response);
+        setlist([...list, newCar]);
+    }).catch((error) => {
+        console.log(error);
+    });
 }
 
 
 
-function AddPage({list,setlist,motorIds}){
+function AddPage(){
+
+    NotLoggedInFunction();
+    const globalData = useContext(GlobalContext);
+    const list=globalData.carlist;
+    const setlist=globalData.setCarlist;
+    const motorIds=globalData.motorlist;
     const [carId, setCarId] = useState("");
     const [carName, setCarName] = useState("");
     const [carModel, setCarModel] = useState("");
@@ -80,7 +94,7 @@ function AddPage({list,setlist,motorIds}){
             </section>
             <div class="buttongap">
             <button onClick={() => {AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId);
-             navigate(`/`)
+             navigate(`/cars`)
             }
             }>Add</button>
             <HomeButton/>

@@ -12,7 +12,8 @@ import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import axios from 'axios';
-
+import GlobalContext from '../GlobalContext';
+import {useContext} from 'react';
 
 function loadData(){
   var list=[];
@@ -25,7 +26,9 @@ function loadData(){
     console.log(error);
   });
 }
-function MotorContainer(motorlist) {
+function MotorContainer() {
+    const globalData=useContext(GlobalContext);
+    const motorlist=globalData.motorlist;
     const rows=motorlist;
     const navigate=useNavigate();
     const data=motorlist;

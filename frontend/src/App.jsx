@@ -17,6 +17,7 @@ import AddMotor from './pages/addmotor';
 import DeleteMotor from './pages/deletemotor';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
+import GlobalContext from './GlobalContext';
 const EndPoint = 'http://localhost:3000/';
 
 function updateChangesCars(carlist,deletedIds){
@@ -76,36 +77,66 @@ function populatelists(setCarlist,setMotorlist){
   });
 }
 
+function populateCars(){
+  axios.get('http://localhost:3000/')
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+}
+
+function populateMotors(){
+  axios.get('http://localhost:3000/motor')
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
 
 
 function App() {
   const [carlist, setCarlist] = useState([]);
   const [motorlist, setMotorlist] = useState([]);
-  const [deletedlist,setDeletedList] = useState([]);
-  
+  const [token,setToken]=useState("");
+
   populatelists(setCarlist,setMotorlist);
   
+  const globalData={
+    carlist:carlist,
+    setCarlist:setCarlist,
+    motorlist:motorlist,
+    setMotorlist:setMotorlist,
+    token:token,
+    setToken:setToken
+  }
 
   return(
     <div>
+      <GlobalContext.Provider value={globalData}>
         <BrowserRouter>
          <Routes>
               <Route index element={<LoginPage/>}/>
               <Route path="/register" element={<RegisterPage/>}/>
               <Route path="/login" element={<LoginPage/>}/>
-              <Route path="/cars" element={<Home carlist={carlist} setCarlist={setCarlist}/>}/>
-              <Route path="/delete/:carId" element={<DeleteConfirmation list={carlist} setlist={setCarlist}/>}/>
-              <Route path="/view/:carId" element={<Car list={carlist}/>}/>
-              <Route path="/edit/:carId" element={<EditPage list={carlist} setlist={setCarlist} motorlist={motorlist}/>}/>
-              <Route path="/add" element={<AddPage list={carlist} setlist={setCarlist} motorIds={motorlist}/>}/>
-              <Route path="/chart" element={<ChartPage list={carlist} />}/>
-              <Route path="/view/motor/:motorId" element={<Motor list={motorlist}/>}/>
-              <Route path="/edit/motor/:motorId" element={<EditMotor list={motorlist} setlist={setMotorlist}/>}/>
-              <Route path="/addmotor" element={<AddMotor list={motorlist} setlist={setMotorlist}/>}/>
+              <Route path="/cars" element={<Home/>}/>
+              <Route path="/delete/:carId" element={<DeleteConfirmation/>}/>
+              <Route path="/cars/view/:carId" element={<Car/>}/>
+              <Route path="/edit/:carId" element={<EditPage/>}/>
+              <Route path="/add" element={<AddPage/>}/>
+              <Route path="/chart" element={<ChartPage/>}/>
+              <Route path="/view/motor/:motorId" element={<Motor/>}/>
+              <Route path="/edit/motor/:motorId" element={<EditMotor/>}/>
+              <Route path="/addmotor" element={<AddMotor />}/>
               <Route path="/delete/motor/:motorId" element={<DeleteMotor />}/>
               <Route path='*' element={<NoPage/>}/>
           </Routes>
         </BrowserRouter>
+      </GlobalContext.Provider>
     </div>
   )
 }

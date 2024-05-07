@@ -1,6 +1,8 @@
 import HomeButton from '../components/HomeButton.jsx';
+import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 
 function NoPage(){
+    NotLoggedInFunction();
     return (
         <div>
             <h1>404</h1>

@@ -1,10 +1,13 @@
 import { PieChart } from "@mui/x-charts/PieChart";
 import BackButton from "../components/HomeButton";
-
-function ChartPage({list}) {
-
+import NotLoggedInFunction from "../functions/NotLoggedInFunction";
+import { useContext } from "react";
+import GlobalContext from "../GlobalContext";
+function ChartPage() {
+    NotLoggedInFunction();
     const carsByYears={};
-
+    const globalData = useContext(GlobalContext);
+    const list=globalData.carlist;
     list.forEach((car)=>{
         if(carsByYears[car.model]){
             carsByYears[car.model]++;

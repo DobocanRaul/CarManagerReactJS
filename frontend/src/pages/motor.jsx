@@ -6,8 +6,10 @@ import CarDetails from '../components/CarDetails.jsx';
 import axios from 'axios';
 import { useEffect } from 'react';
 import MotorDetails from "../components/MotorDetails.jsx";
+import NotLoggedInFunction from "../functions/NotLoggedInFunction.jsx";
 
-function Motor({list}) {
+function Motor() {
+  NotLoggedInFunction();
   const {motorId} = useParams();
   const navigate = useNavigate();
 

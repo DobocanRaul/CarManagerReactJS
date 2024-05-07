@@ -5,43 +5,27 @@ import AddButton from '../components/AddButton';
 import ChartButton from '../components/ChartButton';
 import TableContainer  from '../components/TableContainer';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect,useContext } from 'react';
 import MotorContainer from '../components/MotorContainer';
-function populatelists(setCarlist,setMotorlist){
-  axios.get('http://localhost:3000/')
-  .then((response) => {
-    setCarlist(response.data);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-  axios.get('http://localhost:3000/motor')
-  .then((response) => {
-    setMotorlist(response.data);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
+import GlobalContext from '../GlobalContext';
+import SeeCredentialsButton from '../components/SeeCredentialsButton';
+import NotLoggedInFunction from '../functions/NotLoggedInFunction';
 
 
-function Home({carlist,setCarlist,motorlist,setMotorlist,localchanges,setLocalChanges}) {
-    const [isConnected, setIsConnected] = useState(true);
-    populatelists(setCarlist,setMotorlist);
-
-
-  const navigate = useNavigate();
-  console.log(isConnected);
-  
+function Home() {
+    NotLoggedInFunction();
+      
   return (
     <div class="body divcenter" >
       <div style={{display:"flex", flexDirection:"column", gap:"10px", marginLeft:"30px"}}>
-      <TableContainer carlist={carlist} cardata={carlist}/>
-      <MotorContainer motorlist={motorlist} motorsdata={motorlist}/>
+      <TableContainer/>
+      <MotorContainer/>
       </div>
       <div style={{display:"flex",gap:"10px", alignItems:"center"}}>
+      <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
       <ChartButton/>
+      <SeeCredentialsButton/>
+      </div>
       <AddButton/>
       </div>
     </div>

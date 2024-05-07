@@ -1,33 +1,59 @@
 import {useNavigate} from 'react-router-dom';
+import {useState} from 'react';
+import axios from 'axios';
+function tryRegister(user,password,navigate){
+    console.log("Registering");
+    const usercredentials={
+        username:user,
+        password:password
+    };
+    axios.put('http://localhost:3000/register', usercredentials)
+      .then(function (response) {
+        console.log(response);
+        if(response.data !="Username already exists"){
+            alert("Registration successful");
+            navigate('/login');
+        }
+        else {
+            alert("Username already exists");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
 
 
 function RegisterPage(){
     const navigate = useNavigate();
+    const [user,setUser]=useState("");
+    const [password,setPassword]=useState("");
+
+    const handleUserChange = (event) => {
+        setUser(event.target.value);
+    };
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
     return(
-        <div>
+        <div className="registerform">
             <h1>Register Page</h1>
-            <form class="registerform">
+            <form className="registerform">
                 <label>
-                Email:
-                <input type="text" name="email" />
+                Username : 
+                <input type="text" name="username" onChange={handleUserChange} />
                 </label>
                 <label>
-                Username:
-                <input type="text" name="username" />
+                Password : 
+                <input type="text" name="password" onChange={handlePasswordChange}/>
                 </label>
-                <label>
-                Password:
-                <input type="password" name="password" />
-                </label>
-                <label>
-                Confirm Password:
-                <input type="password" name="password" />
-                </label>
-                <div class="twobuttons">
-                <button type="submit">Register</button>
+            </form>
+            <div className="twobuttons">
+                <button onClick={() => {tryRegister(user,password,navigate)}} type="submit" >Register</button>
                 <button name="back" onClick={() =>{navigate('/login')} }>Cancel</button>
                 </div>
-            </form>
         </div>
     )
 }
