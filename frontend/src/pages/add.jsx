@@ -6,8 +6,8 @@ import axios from 'axios';
 import Car from './car.jsx';
 import {Dropdown} from 'primereact/dropdown';
 import Select from 'react-select';
-
-function AddCar(carId,carName,carModel,carColor,carPrice,motorId) {
+import checkIfConnected from '../components/CheckIfConnected.jsx';
+function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId) {
     const newCar = {
         id: carId,
         name: carName,
@@ -16,12 +16,11 @@ function AddCar(carId,carName,carModel,carColor,carPrice,motorId) {
         price: carPrice,
         motorId: motorId
     }
-    axios.post('http://localhost:3000/addCar', newCar).catch((error) => {
-        console.log(error);
-    }
-    );
-
+    
+    setlist([...list, newCar]);
 }
+
+
 
 function AddPage({list,setlist,motorIds}){
     const [carId, setCarId] = useState("");
@@ -80,7 +79,7 @@ function AddPage({list,setlist,motorIds}){
                 </p>
             </section>
             <div class="buttongap">
-            <button onClick={() => {AddCar(carId,carName,carModel,carColor,carPrice,motorId);
+            <button onClick={() => {AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId);
              navigate(`/`)
             }
             }>Add</button>

@@ -11,11 +11,24 @@ import FirstPageRoundedIcon from '@mui/icons-material/FirstPageRounded';
 import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import axios from 'axios';
 
-function MotorContainer({motorlist,motorsdata}) {
+
+function loadData(){
+  var list=[];
+  axios.get('http://localhost:3000/motor')
+  .then((response) => {
+    list=[...list,response.data];
+    return list;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+function MotorContainer(motorlist) {
     const rows=motorlist;
     const navigate=useNavigate();
-    const data=motorsdata;
+    const data=motorlist;
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(4);
 

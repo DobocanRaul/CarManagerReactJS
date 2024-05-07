@@ -49,6 +49,20 @@ const addMotor = (req, res) => {
             }});
         
 }
+const addMotors = (req, res) => {
+    const Motors = req.body;
+    //Verify if car already exists or if the car has all the required fields
+    const query="Insert into Motors (id,motor_type,horsepower,cubic_cm) values(?,?,?,?)";
+    Motors.array.forEach(element => {
+        db.query(query,[element.id,element.motor_type,element.horsepower,element.cubic_cm],(err,result)=>{
+            if(err)
+                console.log(err);
+        });
+        }
+    );
+
+        
+}
 
 const updateMotor = (req, res) => {
     const passedMotor = req.body;
@@ -63,7 +77,20 @@ const updateMotor = (req, res) => {
             }});
 
 }
+const updateMotors = (req, res) => {
+    const Motors = req.body;
+    //Verify if car already exists or if the car has all the required fields
+    const query="UPDATE Motors SET motor_type=?,horsepower=?,cubic_cm=? WHERE id=?";
+    Motors.array.forEach(element => {
+        db.query(query,[element.motor_type,element.horsepower,element.cubic_cm,element.id],(err,result)=>{
+            if(err)
+                console.log(err);
+        });
+        }
+    );
 
+        
+}
 const deleteMotor = (req, res) => {
     const id = req.params.id;
     const query="DELETE FROM Motors WHERE id=?";
@@ -77,12 +104,29 @@ const deleteMotor = (req, res) => {
             }});
 }
 
+const deleteMotors = (req, res) => {
+    const ids = req.body;
+    const query="DELETE FROM Motors WHERE id=?";
+    ids.array.forEach(element => {
+        db.query(query,[element.id],(err,result)=>{
+            if(err)
+                console.log(err);
+        });
+        }
+    );
+
+        
+}
+
 module.exports = {
     getMotorList,
     getMotorById,
     addMotor,
     updateMotor,
-    deleteMotor
+    deleteMotor,
+    addMotors,
+    updateMotors,
+    deleteMotors
 };
 
 

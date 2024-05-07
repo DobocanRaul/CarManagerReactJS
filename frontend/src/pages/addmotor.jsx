@@ -3,16 +3,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm) {
+function Add(list,setlist,motorId, MotorType, MotorHorsepower, MotorCubicCm) {
     const newMotor = {
         id: motorId,
         motor_type: MotorType,
         horsepower: MotorHorsepower,
         cubic_cm: MotorCubicCm
     }
-    axios.post('http://localhost:3000/addMotor', newMotor).catch((error) => {
-        console.log(error);
-    });
+    setlist([...list, newMotor]);
 }
 
 function AddMotor({ list, setlist }) {
@@ -54,7 +52,7 @@ function AddMotor({ list, setlist }) {
             </section>
             <div class="buttongap">
                 <button onClick={() => {
-                    Add(motorId,motorType,motorHorsepower,motorCubicCm);
+                    Add(list,setlist,motorId,motorType,motorHorsepower,motorCubicCm);
                     navigate(`/`)
                 }}>Add Motor</button>
                 <HomeButton />

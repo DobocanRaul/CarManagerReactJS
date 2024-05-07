@@ -12,7 +12,9 @@ function CarDetails({carId,list}) {
             console.log(error);
         });
     }, []);
-    console.log(car);
+    if(car==null){
+        return <p>Car not found</p>
+    }else
     return(
 
     <ul>

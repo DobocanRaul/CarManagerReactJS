@@ -64,6 +64,18 @@ const addCar = (req, res) => {
             }});  
 }
 
+const addCars = (req, res) => {
+    const cars = req.body;
+    //Verify if car already exists or if the car has all the required fields
+    const query="Insert into Cars (id,name,model,color,price,motorId) values ?";
+    cars.forEach(car => {
+        db.query(query,[car.id,car.name,car.model,car.color,car.price,car.motorId],(err,result)=>{
+            if(err){
+                console.log(err);
+            }
+        });});
+
+}
 const updateCar = (req, res) => {
     const passedCar=req.body;
     const query="UPDATE Cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
@@ -76,6 +88,17 @@ const updateCar = (req, res) => {
             res.json(passedCar);
             }});
     
+}
+
+const updateCars = (req, res) => {
+    const cars = req.body;
+    const query="UPDATE Cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
+    cars.forEach(car => {
+        db.query(query,[car.name,car.model,car.color,car.price,car.motorId,car.id],(err,result)=>{
+            if(err){
+                console.log(err);
+            }
+        });});
 }
 
 const deleteCar = (req, res) => {
@@ -91,13 +114,26 @@ const deleteCar = (req, res) => {
             }});
 }
 
+const deleteCars = (req, res) => {
+    const ids = req.body;
+    const query="DELETE FROM Cars WHERE id=?";
+    ids.forEach(id => {
+        db.query(query,[id],(err,result)=>{
+            if(err){
+                console.log(err);
+            }
+        });});
+}
 module.exports = {
     addCarToList,
     getCarList,
     getCarById,
     addCar,
     updateCar,
-    deleteCar
+    deleteCar,
+    addCars,
+    updateCars,
+    deleteCars
 };
 
 

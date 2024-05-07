@@ -1,17 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+
+function getMotorDetails(MotorId) {
+    return axios.get(`http://localhost:3000/motor/${MotorId}`);
+}
 function MotorDetails({MotorId}) {
     const [motor, setMotor] = useState(null);
-    useEffect(() => {
-        axios.get(`http://localhost:3000/motor/${MotorId}`)
-        .then((response) => {
-            setMotor(response.data[0]);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }, []);
+    setMotor(getMotorDetails(MotorId));
     return(
 
     <ul>

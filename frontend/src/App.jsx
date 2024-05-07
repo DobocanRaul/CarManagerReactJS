@@ -15,62 +15,84 @@ import io from 'socket.io-client';
 import EditMotor from './pages/editmotor';
 import AddMotor from './pages/addmotor';
 import DeleteMotor from './pages/deletemotor';
-
-
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 const EndPoint = 'http://localhost:3000/';
+
+function updateChangesCars(carlist,deletedIds){
+  axios.get('http://localhost:3000/')
+  .then((response) => {
+    const data= response.data;
+    const ids= data.map((car) => car.id);
+    carlist.forEach((car) => {
+      if(ids.includes(car.id)){
+        axios.put(`http://localhost:3000/car/${car.id}`, car)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+      }else{
+        axios.post('http://localhost:3000/car', car)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
+    }
+    )
+    deletedIds.forEach((id) => {
+      axios.delete(`http://localhost:3000/car/${id}`)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    })
+  })
+
+}
+
+function populatelists(setCarlist,setMotorlist){
+  axios.get('http://localhost:3000/')
+  .then((response) => {
+    setCarlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  axios.get('http://localhost:3000/motor')
+  .then((response) => {
+    setMotorlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+
 
 function App() {
   const [carlist, setCarlist] = useState([]);
   const [motorlist, setMotorlist] = useState([]);
-  useEffect(() => {
-    axios.get('http://localhost:3000/')
-    .then((response) => {
-      setCarlist(response.data);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, []);
+  const [deletedlist,setDeletedList] = useState([]);
+  
+  populatelists(setCarlist,setMotorlist);
+  
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/motor')
-    .then((response) => {
-      setMotorlist(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-  , []);
-
-  useEffect(() => {
-    const socket = io(EndPoint);
-    socket.on('newEntity', () => {
-      axios.get('http://localhost:3000/')
-      .then((response) => {
-        setCarlist(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    });
-  }
-  , []);
-
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  if(!isOnline){
-    return (
-      <div class="body divcenter" >
-        <h1>No connection to internet!</h1>
-      </div>
-    );
-  }
-  else return(
+  return(
     <div>
         <BrowserRouter>
          <Routes>
-              <Route index element={<Home carlist={carlist} setCarlist={setCarlist} motorlist={motorlist} setMotorlist={setMotorlist}/>}/>
+              <Route index element={<LoginPage/>}/>
+              <Route path="/register" element={<RegisterPage/>}/>
+              <Route path="/login" element={<LoginPage/>}/>
               <Route path="/cars" element={<Home carlist={carlist} setCarlist={setCarlist}/>}/>
               <Route path="/delete/:carId" element={<DeleteConfirmation list={carlist} setlist={setCarlist}/>}/>
               <Route path="/view/:carId" element={<Car list={carlist}/>}/>

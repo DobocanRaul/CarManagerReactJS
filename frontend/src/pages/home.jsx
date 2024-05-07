@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
 import AddButton from '../components/AddButton';
@@ -7,30 +7,32 @@ import TableContainer  from '../components/TableContainer';
 import axios from 'axios';
 import { useEffect } from 'react';
 import MotorContainer from '../components/MotorContainer';
-function Home({carlist,setCarlist,motorlist,setMotorlist}) {
-    useEffect(() => {
-    axios.get('http://localhost:3000/')
-    .then((response) => {
-      setCarlist(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, []);
-  useEffect(() => {
-    axios.get('http://localhost:3000/motor')
-    .then((response) => {
-      setMotorlist(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-  , []);
+function populatelists(setCarlist,setMotorlist){
+  axios.get('http://localhost:3000/')
+  .then((response) => {
+    setCarlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  axios.get('http://localhost:3000/motor')
+  .then((response) => {
+    setMotorlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+
+function Home({carlist,setCarlist,motorlist,setMotorlist,localchanges,setLocalChanges}) {
+    const [isConnected, setIsConnected] = useState(true);
+    populatelists(setCarlist,setMotorlist);
 
 
   const navigate = useNavigate();
-  if(carlist.length > 0){
+  console.log(isConnected);
   
   return (
     <div class="body divcenter" >
@@ -44,14 +46,7 @@ function Home({carlist,setCarlist,motorlist,setMotorlist}) {
       </div>
     </div>
   );
-  }
-  else{
-    return (
-      <div class="body divcenter" >
-        <h1>No connection to server!</h1>
-      </div>
-    );
-  }
+
 }
 
 export default Home;
