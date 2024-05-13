@@ -63,7 +63,7 @@ function AddMotor() {
                 <p>Motor Cubic Capacity</p>
                 <input id="motorColor" type="text" placeholder="Enter motor color" onChange={handleMotorCubicCm} />
             </section>
-            <div class="buttongap">
+            <div class="buttongap"> 
                 <button onClick={() => {
                     Add(motorId,motorType,motorHorsepower,motorCubicCm);
                     navigate(`/cars`)

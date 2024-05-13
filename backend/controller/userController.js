@@ -12,13 +12,15 @@ const db=mysql.createConnection({
 
 
 const getToken = (req, res) => {
-    const query="SELECT token FROM User WHERE username=? AND password=?";
+    const query="SELECT token FROM User WHERE username=? AND password=? AND token=?";
     const user = req.body;
+
     db.query(query,[user.username,user.password],(err,result)=>{
         if(err){
             console.log(err);
         }
         else{
+            console.log(result);
             if(result.length>0){
                 res.json(result);
             }
@@ -26,6 +28,45 @@ const getToken = (req, res) => {
                 res.json("Invalid credentials");
             }
             }});
+}
+const login = (req, res) => {
+    const newtoken= faker.datatype.uuid();
+    const query1="UPDATE User SET token=? WHERE username=? AND password=?";
+    db.query(query1,[newtoken,req.body.username,req.body.password],(err,result)=>{if(err){console.log(err);}});
+    const query="SELECT token FROM User WHERE username=? AND password=?";
+    const user = req.body;
+    db.query(query,[user.username,user.password],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(result);
+            if(result.length>0){
+                res.json(result);
+            }
+            else{
+                res.json("Invalid credentials");
+            }
+            }});
+}
+
+
+const validateToken = (req, res) => {
+    const query="SELECT token FROM User WHERE token=?";
+    const token = req.body;
+    db.query(query,[token],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(result.length>0){
+                res.json("Valid token");
+            }
+            else{
+                res.json("Invalid token");
+            }
+            }}
+    );
 }
 
 const addUser = (req, res) => {
@@ -60,4 +101,4 @@ const getUserAndPass= (req,res) =>{
     });
 }
 
-module.exports={getToken,addUser,getUserAndPass};
+module.exports={getToken,addUser,getUserAndPass,validateToken,login};

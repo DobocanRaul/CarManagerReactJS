@@ -11,7 +11,7 @@ function Car() {
   NotLoggedInFunction();
   const {carId} = useParams();
   const navigate = useNavigate();
-
+  
   return (
     <div>
       <h1>Car details</h1>

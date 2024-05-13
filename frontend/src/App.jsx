@@ -18,6 +18,7 @@ import DeleteMotor from './pages/deletemotor';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import GlobalContext from './GlobalContext';
+import ValidateTokenFunction from './functions/ValidateTokenFunction';
 const EndPoint = 'http://localhost:3000/';
 
 function updateChangesCars(carlist,deletedIds){
@@ -77,34 +78,14 @@ function populatelists(setCarlist,setMotorlist){
   });
 }
 
-function populateCars(){
-  axios.get('http://localhost:3000/')
-  .then((response) => {
-    return response.data;
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-}
-
-function populateMotors(){
-  axios.get('http://localhost:3000/motor')
-  .then((response) => {
-    return response.data;
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
 
 
 function App() {
   const [carlist, setCarlist] = useState([]);
   const [motorlist, setMotorlist] = useState([]);
   const [token,setToken]=useState("");
-
-  populatelists(setCarlist,setMotorlist);
+  const [user,setUser]=useState("");
+  const [password,setPassword]=useState("");
   
   const globalData={
     carlist:carlist,
@@ -112,9 +93,13 @@ function App() {
     motorlist:motorlist,
     setMotorlist:setMotorlist,
     token:token,
-    setToken:setToken
+    setToken:setToken,
+    user:user,
+    setUser:setUser,
+    password:password,
+    setPassword:setPassword,
   }
-
+  
   return(
     <div>
       <GlobalContext.Provider value={globalData}>

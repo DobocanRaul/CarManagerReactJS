@@ -4,6 +4,8 @@ const carcontroller=require('../controller/carContoller');
 const motorcontroller=require('../controller/motorController');
 const usercontroller=require('../controller/userController');
 router.post('/credentials', usercontroller.getUserAndPass);
+router.post('/validateToken', usercontroller.validateToken);
+router.post('/login', usercontroller.login);
 router.post('/token', usercontroller.getToken);
 router.put('/register', usercontroller.addUser);
 router.get('/', carcontroller.getCarList);

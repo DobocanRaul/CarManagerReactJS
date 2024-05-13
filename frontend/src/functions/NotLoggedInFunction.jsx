@@ -5,11 +5,13 @@ import axios from 'axios';
 import GlobalContext from '../GlobalContext';
 import {useContext} from 'react';
 function NotLoggedInFunction() {
-    const navigate = useNavigate();
     const globalData=useContext(GlobalContext);
     const token=globalData.token;
     if(token===""){
-        navigate('/login');
+        return false;
+    }
+    else{
+        return true;
     }
 }
 

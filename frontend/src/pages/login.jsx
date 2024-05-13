@@ -5,19 +5,44 @@ import axios from 'axios';
 import GlobalContext from '../GlobalContext';
 import {useContext} from 'react';
 
+function populatelists(setCarlist,setMotorlist){
+  axios.get('http://localhost:3000/')
+  .then((response) => {
+    setCarlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  axios.get('http://localhost:3000/motor')
+  .then((response) => {
+    setMotorlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+
 function tryLogin(user,password,globalData,navigate){
   const setter=globalData.setToken;
+  const setCarlist=globalData.setCarlist;
+  const setMotorlist=globalData.setMotorlist;
+  const setUser=globalData.setUser;
+  const setPassword=globalData.setPassword;
   const usercredentials={
         username:user,
         password:password
   };
-    axios.post('http://localhost:3000/token', usercredentials)
+    axios.post('http://localhost:3000/login', usercredentials)
       .then(function (response) {
-        console.log(response);
         if(response.data!="Invalid credentials"){
             alert("Login successful");
             setter(response.data[0].token);
+            setUser(user);
+            setPassword(password);
             navigate('/cars');
+            populatelists(setCarlist,setMotorlist);
           }
         else{
             alert("Invalid credentials");

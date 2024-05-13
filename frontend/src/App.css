@@ -104,7 +104,7 @@ body {
   position: relative;
   max-height: 600px;
   -webkit-transform: translate(-50%, -50%);
-  transform: translate(-75%, 0%);
+  transform: translate(-65%, 15%);
 }
 .headerdetails{
   top:50%;
