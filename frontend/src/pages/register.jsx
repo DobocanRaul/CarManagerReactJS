@@ -7,7 +7,7 @@ function tryRegister(user,password,navigate){
         username:user,
         password:password
     };
-    axios.put('http://localhost:3000/register', usercredentials)
+    axios.post('http://localhost:3000/register', usercredentials)
       .then(function (response) {
         console.log(response);
         if(response.data !="Username already exists"){

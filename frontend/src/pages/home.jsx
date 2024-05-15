@@ -12,6 +12,23 @@ import SeeCredentialsButton from '../components/SeeCredentialsButton';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction';
 import ValidateTokenFunction from '../functions/ValidateTokenFunction';
 
+function populatelists(setCarlist,setMotorlist){
+  axios.get('http://localhost:3000/')
+  .then((response) => {
+    setCarlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  axios.get('http://localhost:3000/motor')
+  .then((response) => {
+    setMotorlist(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
 
 function Home() {
   const globalData=useContext(GlobalContext);
@@ -23,6 +40,9 @@ function Home() {
           navigate(`/login`);
         }, []);
       }
+    const setCarlist=globalData.setCarlist;
+    const setMotorlist=globalData.setMotorlist;
+    populatelists(setCarlist,setMotorlist);
     const setToken=globalData.setToken;
     const user=globalData.user;
     const password=globalData.password;

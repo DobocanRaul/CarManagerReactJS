@@ -1,6 +1,7 @@
 var faker = require('faker');
 const mysql=require("mysql2");
 const fs=require('fs');
+const { verify } = require('crypto');
 var list = [];
 
 const db=mysql.createConnection({
@@ -10,6 +11,16 @@ const db=mysql.createConnection({
     database:"mppdb",
 });    
 
+
+async function verifyToken(token) {
+    const result = await db
+      .promise()
+      .query("SELECT token FROM User WHERE token=?", [token])
+      .then(([rows, fields]) => {
+        return rows;
+      });
+    return result;
+  }
 
 const getMotorList = (req, res) => {
     const query="SELECT * FROM Motors";
@@ -36,18 +47,30 @@ const getMotorById = (req, res) => {
 }
 
 const addMotor = (req, res) => {
-    const newMotor = req.body;
+    const newMotor = req.body[0];
+    const token=req.body[1];
     //Verify if car already exists or if the car has all the required fields
-    const query="Insert into Motors (id,motor_type,horsepower,cubic_cm) values(?,?,?,?)";
-    db.query(query,[newMotor.id,newMotor.motor_type,newMotor.horsepower,newMotor.cubic_cm],(err,result)=>{
-        if(err){
-            console.log(err);
+    verifyToken(token).then((result) => {
+        if (result.length > 0) {
+            if(result[0].token==token){
+                const query="Insert into Motors (id,motor_type,horsepower,cubic_cm) values(?,?,?,?)";
+                db.query(query,[newMotor.id,newMotor.motor_type,newMotor.horsepower,newMotor.cubic_cm],(err,result)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log(result);
+                        res.json(result);
+                        }});
+            }
+            else{
+                res.json("Invalid token");
+            }
         }
         else{
-            console.log(result);
-            res.json(result);
-            }});
-        
+            res.json("Invalid token");
+        }
+    }); 
 }
 const addMotors = (req, res) => {
     const Motors = req.body;
@@ -65,17 +88,29 @@ const addMotors = (req, res) => {
 }
 
 const updateMotor = (req, res) => {
-    const passedMotor = req.body;
-    const query="UPDATE Motors SET motor_type=?,horsepower=?,cubic_cm=? WHERE id=?";
-    db.query(query,[passedMotor.motor_type,passedMotor.horsepower,passedMotor.cubic_cm,passedMotor.id],(err,result)=>{
-        if(err){
-            console.log(err);
+    const passedMotor = req.body[0];
+    const token=req.body[1];
+    verifyToken(token).then((result) => {
+        if (result.length > 0) {
+            if(result[0].token==token){
+                const query="UPDATE Motors SET motor_type=?,horsepower=?,cubic_cm=? WHERE id=?";
+                db.query(query,[passedMotor.motor_type,passedMotor.horsepower,passedMotor.cubic_cm,passedMotor.id],(err,result)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log(result);
+                        res.json(result);
+                        }});
+            }
+            else{
+                res.json("Invalid token");
+            }
         }
         else{
-            console.log(result);
-            res.json(result);
-            }});
-
+            res.json("Invalid token");
+        }
+    });
 }
 const updateMotors = (req, res) => {
     const Motors = req.body;
@@ -93,15 +128,29 @@ const updateMotors = (req, res) => {
 }
 const deleteMotor = (req, res) => {
     const id = req.params.id;
-    const query="DELETE FROM Motors WHERE id=?";
-    db.query(query,[id],(err,result)=>{
-        if(err){
-            console.log(err);
+    const token=req.params.token;
+    verifyToken(token).then((result) => {
+        if (result.length > 0) {
+            if(result[0].token==token){
+                const query="DELETE FROM Motors WHERE id=?";
+                db.query(query,[id],(err,result)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log(result);
+                        res.json(result);
+                        }});
+            }
+            else{
+                res.json("Invalid token");
+            }
         }
         else{
-            console.log(result);
-            res.json(result);
-            }});
+            res.json("Invalid token");
+        }
+    });
+
 }
 
 const deleteMotors = (req, res) => {

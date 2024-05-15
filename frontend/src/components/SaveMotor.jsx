@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-function saveChanges({motorId,motorType,motorHorsepower,motorCubicCm})
+import GlobalContext from '../GlobalContext';
+import {useContext} from 'react';
+function saveChanges({motorId,motorType,motorHorsepower,motorCubicCm,token})
     {
         console.log("Saving changes!");
         const newMotor = {
@@ -12,7 +14,7 @@ function saveChanges({motorId,motorType,motorHorsepower,motorCubicCm})
             horsepower: motorHorsepower,
             cubic_cm: motorCubicCm
         }
-        axios.put(`http://localhost:3000/motor/`, newMotor).catch((error) => {
+        axios.put(`http://localhost:3000/motor/`, [newMotor,token]).catch((error) => {
             console.log(error);
         });
         
@@ -21,8 +23,10 @@ function saveChanges({motorId,motorType,motorHorsepower,motorCubicCm})
 function SaveButton({motorType,motorHorsepower,motorCubicCm}){
     const {motorId} = useParams();
     const navigate=useNavigate();
+    const globalData=useContext(GlobalContext);
+    const token=globalData.token;
     return(
-        <button onClick={() => {saveChanges({motorId,motorType,motorHorsepower,motorCubicCm});navigate(`/view/motor/${motorId}`);}}>Save</button>
+        <button onClick={() => {saveChanges({motorId,motorType,motorHorsepower,motorCubicCm,token});navigate(`/view/motor/${motorId}`);}}>Save</button>
     )
 }
 

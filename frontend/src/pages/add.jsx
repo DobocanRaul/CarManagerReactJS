@@ -40,8 +40,6 @@ function AddPage(){
     const list=globalData.carlist;
     const setlist=globalData.setCarlist;
     const motorIds=globalData.motorlist;
-    const user=globalData.user;
-    const password=globalData.password;
     const [carId, setCarId] = useState("");
     const [carName, setCarName] = useState("");
     const [carModel, setCarModel] = useState("");

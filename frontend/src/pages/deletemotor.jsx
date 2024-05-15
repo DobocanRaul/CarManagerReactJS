@@ -25,8 +25,8 @@ function populatelists(setCarlist,setMotorlist){
   }
   
 
-function deleteMotor(motorId,setCarlist,setMotorlist) {
-    axios.delete(`http://localhost:3000/motor/${motorId}`).catch((error) => {
+function deleteMotor(motorId,setCarlist,setMotorlist,token) {
+    axios.delete(`http://localhost:3000/motor/${motorId}/${token}`).catch((error) => {
         console.log(error);
     }
     );
@@ -49,7 +49,7 @@ function DeleteMotor(){
             <h1>Are you sure you want to delete the motor with id {motorId}</h1>
             <div style={{display:"flex",gap:"5px",justifyContent:"center"}}>
             <button onClick={() => navigate(`/cars`)}>Cancel</button>
-            <button onClick={() => {deleteMotor(motorId,setcarlist,setmotorlist) ;navigate(`/cars`)}}>Delete</button>
+            <button onClick={() => {deleteMotor(motorId,setcarlist,setmotorlist,token) ;navigate(`/cars`)}}>Delete</button>
             </div>
      </div>)
 }

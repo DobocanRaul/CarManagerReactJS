@@ -5,7 +5,7 @@ import axios from 'axios';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext';
-function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm) {
+function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm,token,setlist,list) {
     const newMotor = {
         id: motorId,
         motor_type: MotorType,
@@ -13,8 +13,9 @@ function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm) {
         cubic_cm: MotorCubicCm
     }
     console.log(newMotor);
-    axios.post('http://localhost:3000/addMotor', newMotor).then((response) => {
+    axios.post('http://localhost:3000/addMotor', [newMotor,token]).then((response) => {
         console.log(response);
+        setlist([...list, newMotor]);
     }).catch((error) => {
         console.log(error);
     });
@@ -35,7 +36,8 @@ function AddMotor() {
     const [motorType, setMotorType] = useState("");
     const [motorHorsepower, setMotorHorsepower] = useState("");
     const [motorCubicCm, setMotorCubicCm] = useState("");
-
+    const setmotorlist=globalData.setMotorlist;
+    const motorlist=globalData.motorlist;
     const handleMotorId = (e) => {
         setMotorId(e.target.value);
     }
@@ -68,7 +70,7 @@ function AddMotor() {
             </section>
             <div class="buttongap"> 
                 <button onClick={() => {
-                    Add(motorId,motorType,motorHorsepower,motorCubicCm);
+                    Add(motorId,motorType,motorHorsepower,motorCubicCm,token,setmotorlist,motorlist);
                     navigate(`/cars`)
                 }}>Add Motor</button>
                 <HomeButton />
