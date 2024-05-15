@@ -4,13 +4,13 @@ import { useState } from 'react';
 import axios from 'axios';
 import GlobalContext from '../GlobalContext';
 import {useContext} from 'react';
-function NotLoggedInFunction() {
-    const globalData=useContext(GlobalContext);
-    const token=globalData.token;
-    if(token===""){
+function NotLoggedInFunction(token) {
+    if(token==""){
+        console.log("Not logged in");
         return false;
     }
     else{
+        console.log("Logged in");
         return true;
     }
 }

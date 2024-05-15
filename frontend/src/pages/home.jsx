@@ -14,20 +14,21 @@ import ValidateTokenFunction from '../functions/ValidateTokenFunction';
 
 
 function Home() {
-
-    if(NotLoggedInFunction()==false){
-        const navigate = useNavigate();
-        useEffect(() => {
-        navigate('/login');
-        },[]);
-    }
-    const [response,setResponse]=useState("");
-    const globalData=useContext(GlobalContext);
+  const globalData=useContext(GlobalContext);
     const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
     const setToken=globalData.setToken;
     const user=globalData.user;
     const password=globalData.password;
-  return (
+    const setresponse=globalData.setResponse;
+    const response=globalData.response;
+    return (
     <div class="body divcenter" >
       <div style={{display:"flex", flexDirection:"column", gap:"10px", marginLeft:"30px"}}>
       <TableContainer/>
@@ -39,8 +40,8 @@ function Home() {
       <SeeCredentialsButton/>
       </div>
       <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
-        <button onClick={()=>{ValidateTokenFunction(user,password,setResponse); console.log(response==token)}}>Test</button>
-        <button style={{width:"140px", height:"100px"}} onClick={() => {setToken("");}}>Logout</button>
+        <button onClick={()=>{ValidateTokenFunction(user,password,token,setresponse);console.log(response)}}>Test</button>
+        <button style={{width:"140px", height:"100px"}} onClick={() => {setToken("");navigate(`/login`);  }}>Logout</button>
       </div>
       <AddButton/>
       </div>

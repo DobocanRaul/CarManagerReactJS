@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-function saveChanges({carId,carName,carModel,carColor,carPrice,motorId})
+import { useContext } from 'react';
+import GlobalContext from '../GlobalContext.jsx';
+function saveChanges({carId,carName,carModel,carColor,carPrice,motorId,token})
     {
         console.log("Saving changes!");
         const newCar = {
@@ -14,7 +16,7 @@ function saveChanges({carId,carName,carModel,carColor,carPrice,motorId})
             price: carPrice
         ,motorId: motorId
         }
-        axios.put(`http://localhost:3000/cars/`, newCar).catch((error) => {
+        axios.put(`http://localhost:3000/cars/`, [newCar,token]).catch((error) => {
             console.log(error);
         });
         
@@ -23,8 +25,10 @@ function saveChanges({carId,carName,carModel,carColor,carPrice,motorId})
 function SaveButton({carName,carModel,carColor,carPrice,motorId}){
     const {carId} = useParams();
     const navigate=useNavigate();
+    const globalData = useContext(GlobalContext);
+    const token=globalData.token;
     return(
-        <button onClick={() => {saveChanges({carId,carName,carModel,carColor,carPrice,motorId});navigate(`/cars/view/${carId}`);}}>Save</button>
+        <button onClick={() => {saveChanges({carId,carName,carModel,carColor,carPrice,motorId,token});navigate(`/cars/view/${carId}`);}}>Save</button>
     )
 }
 

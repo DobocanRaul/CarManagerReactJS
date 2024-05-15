@@ -10,7 +10,8 @@ import checkIfConnected from '../components/CheckIfConnected.jsx';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext.jsx';
-function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId) {
+import ValidateTokenFunction from '../functions/ValidateTokenFunction.jsx';
+function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token) {
     const newCar = {
         id: carId,
         name: carName,
@@ -20,7 +21,8 @@ function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId) {
         motorId: motorId
     }
     
-    axios.post(`http://localhost:3000/addCar`, newCar).then((response) => {
+    
+    axios.post(`http://localhost:3000/addCar`, [newCar,token]).then((response) => {
         console.log(response);
         setlist([...list, newCar]);
     }).catch((error) => {
@@ -37,6 +39,9 @@ function AddPage(){
     const list=globalData.carlist;
     const setlist=globalData.setCarlist;
     const motorIds=globalData.motorlist;
+    const user=globalData.user;
+    const password=globalData.password;
+    const token=globalData.token;
     const [carId, setCarId] = useState("");
     const [carName, setCarName] = useState("");
     const [carModel, setCarModel] = useState("");
@@ -93,7 +98,7 @@ function AddPage(){
                 </p>
             </section>
             <div class="buttongap">
-            <button onClick={() => {AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId);
+            <button onClick={() => {AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token);
              navigate(`/cars`)
             }
             }>Add</button>

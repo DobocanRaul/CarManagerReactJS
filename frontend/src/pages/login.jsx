@@ -34,6 +34,7 @@ function tryLogin(user,password,globalData,navigate){
         username:user,
         password:password
   };
+  
     axios.post('http://localhost:3000/login', usercredentials)
       .then(function (response) {
         if(response.data!="Invalid credentials"){
@@ -42,7 +43,7 @@ function tryLogin(user,password,globalData,navigate){
             setUser(user);
             setPassword(password);
             navigate('/cars');
-            populatelists(setCarlist,setMotorlist);
+            populatelists(setCarlist,setMotorlist,response.data[0].token);
           }
         else{
             alert("Invalid credentials");

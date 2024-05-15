@@ -15,12 +15,11 @@ const getToken = (req, res) => {
     const query="SELECT token FROM User WHERE username=? AND password=? AND token=?";
     const user = req.body;
 
-    db.query(query,[user.username,user.password],(err,result)=>{
+    db.query(query,[user.username,user.password,user.token],(err,result)=>{
         if(err){
             console.log(err);
         }
         else{
-            console.log(result);
             if(result.length>0){
                 res.json(result);
             }

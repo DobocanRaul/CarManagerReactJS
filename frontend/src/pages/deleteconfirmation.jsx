@@ -25,8 +25,8 @@ function populatelists(setCarlist,setMotorlist){
   }
   
 
-function deleteCar(carId,setCarlist,setMotorlist) {
-    axios.delete(`http://localhost:3000/cars/${carId}`).catch((error) => {
+function deleteCar(carId,setCarlist,setMotorlist,token) {
+    axios.delete(`http://localhost:3000/cars/${carId}/${token}`).catch((error) => {
         console.log(error);
     }
     );
@@ -40,11 +40,12 @@ function DeleteConfirmation(){
     const globalData=useContext(GlobalContext);
     const setcarlist=globalData.setCarlist;
     const setmotorlist=globalData.setMotorlist;
+    const token=globalData.token;
     return(<div>
             <h1>Are you sure you want to delete car with id {carId}</h1>
             <div style={{display:"flex",gap:"5px",justifyContent:"center"}}>
             <button onClick={() => navigate(`/cars`)}>Cancel</button>
-            <button onClick={() => {deleteCar(carId,setcarlist,setmotorlist) ;navigate(`/cars`)}}>Delete</button>
+            <button onClick={() => {deleteCar(carId,setcarlist,setmotorlist,token) ;navigate(`/cars`)}}>Delete</button>
             </div>
      </div>)
 }
