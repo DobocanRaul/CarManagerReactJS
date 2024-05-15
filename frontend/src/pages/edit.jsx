@@ -2,17 +2,24 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 import CarDetails from '../components/CarDetails';
 import { useState } from "react";
-import Home from './home';
 import HomeButton from '../components/HomeButton.jsx';
 import SaveButton from '../components/SaveButton.jsx';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import {useContext} from 'react';
 import GlobalContext from '../GlobalContext.jsx';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function EditPage(){
-    NotLoggedInFunction();
-
     const globalData=useContext(GlobalContext);
+    const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
     const list=globalData.carlist;
     const motorlist=globalData.motorlist;
     const {carId} = useParams();

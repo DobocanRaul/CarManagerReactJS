@@ -4,6 +4,7 @@ import axios from "axios";
 import NotLoggedInFunction from '../functions/NotLoggedInFunction';
 import {useContext} from 'react';
 import GlobalContext from '../GlobalContext';
+import { useEffect } from 'react';
 function populatelists(setCarlist,setMotorlist){
 
     axios.get('http://localhost:3000/')
@@ -32,10 +33,16 @@ function deleteMotor(motorId,setCarlist,setMotorlist) {
     populatelists(setCarlist, setMotorlist);
 }
 function DeleteMotor(){
-    NotLoggedInFunction();
-    const {motorId} = useParams();
-    const navigate = useNavigate();
     const globalData=useContext(GlobalContext);
+    const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
+    const {motorId} = useParams();
     const setcarlist=globalData.setCarlist;
     const setmotorlist=globalData.setMotorlist;
     return(<div>

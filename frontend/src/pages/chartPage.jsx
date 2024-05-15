@@ -3,10 +3,19 @@ import BackButton from "../components/HomeButton";
 import NotLoggedInFunction from "../functions/NotLoggedInFunction";
 import { useContext } from "react";
 import GlobalContext from "../GlobalContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 function ChartPage() {
-    NotLoggedInFunction();
+    const globalData=useContext(GlobalContext);
+    const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
     const carsByYears={};
-    const globalData = useContext(GlobalContext);
     const list=globalData.carlist;
     list.forEach((car)=>{
         if(carsByYears[car.model]){

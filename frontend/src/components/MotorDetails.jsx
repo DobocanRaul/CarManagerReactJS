@@ -7,7 +7,15 @@ function getMotorDetails(MotorId) {
 }
 function MotorDetails({MotorId}) {
     const [motor, setMotor] = useState(null);
-    setMotor(getMotorDetails(MotorId));
+    useEffect(() => {
+        getMotorDetails(MotorId)
+        .then((response) => {
+            setMotor(response.data[0]);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }, []);
     return(
 
     <ul>

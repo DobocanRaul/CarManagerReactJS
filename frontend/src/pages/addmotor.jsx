@@ -22,16 +22,19 @@ function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm) {
 }
 
 function AddMotor() {
-    NotLoggedInFunction();
-
-    const globalData = useContext(GlobalContext);
-    const list=globalData.motors;
-    const setlist=globalData.setMotors;
+    const globalData=useContext(GlobalContext);
+    const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
     const [motorId, setMotorId] = useState("");
     const [motorType, setMotorType] = useState("");
     const [motorHorsepower, setMotorHorsepower] = useState("");
     const [motorCubicCm, setMotorCubicCm] = useState("");
-    const navigate = useNavigate();
 
     const handleMotorId = (e) => {
         setMotorId(e.target.value);

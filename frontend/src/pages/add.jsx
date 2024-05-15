@@ -3,14 +3,9 @@ import HomeButton from '../components/HomeButton.jsx';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import Car from './car.jsx';
-import {Dropdown} from 'primereact/dropdown';
-import Select from 'react-select';
-import checkIfConnected from '../components/CheckIfConnected.jsx';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext.jsx';
-import ValidateTokenFunction from '../functions/ValidateTokenFunction.jsx';
 function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token) {
     const newCar = {
         id: carId,
@@ -33,22 +28,26 @@ function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,to
 
 
 function AddPage(){
-
-    NotLoggedInFunction();
-    const globalData = useContext(GlobalContext);
+    const globalData=useContext(GlobalContext);
+    const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
     const list=globalData.carlist;
     const setlist=globalData.setCarlist;
     const motorIds=globalData.motorlist;
     const user=globalData.user;
     const password=globalData.password;
-    const token=globalData.token;
     const [carId, setCarId] = useState("");
     const [carName, setCarName] = useState("");
     const [carModel, setCarModel] = useState("");
     const [carColor, setCarColor] = useState("");
     const [motorId, setMotorId] = useState("");
     const [carPrice, setCarPrice] = useState(0);
-    const navigate = useNavigate();
     const ids=motorIds.map((car) => car.id);
     const handleCarId = (e) => {
         setCarId(e.target.value);

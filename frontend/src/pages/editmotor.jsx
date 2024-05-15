@@ -7,13 +7,23 @@ import SaveMotor from '../components/SaveMotor';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import {useContext} from 'react';
 import GlobalContext from '../GlobalContext';
-function EditMotor(){
-    NotLoggedInFunction();
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+function EditMotor(){
     const globalData=useContext(GlobalContext);
-    const list=globalData.motorList;
+    const token=globalData.token;
+    const navigate = useNavigate();
+    if(NotLoggedInFunction(token)==false)
+      {
+        useEffect(() => {
+          navigate(`/login`);
+        }, []);
+      }
+    const list=globalData.motorlist;
     const {motorId} = useParams();
     const motor=list.filter(motor => motor.id==motorId);
+    console.log(motor);
     const [motorType, setMotorType] = useState(motor[0].motor_type);
     const [motorHorsepower, setMotorHorsepower] = useState(motor[0].horsepower);
     const [motorCubicCm, setMotorCubicCm] = useState(motor[0].cubic_cm);
