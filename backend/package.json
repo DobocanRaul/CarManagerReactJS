@@ -8,6 +8,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "faker": "5.5.3",
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",

@@ -14,7 +14,7 @@ router.post('/addCar', carcontroller.addCar);
 router.post('/addCars', carcontroller.addCars);
 router.put('/cars/', carcontroller.updateCar);
 router.put('/cars', carcontroller.updateCars);
-router.delete('/cars/:id', carcontroller.deleteCar);
+router.delete('/cars/:id/:token', carcontroller.deleteCar);
 router.delete('/cars', carcontroller.deleteCars);
 router.get('/motor', motorcontroller.getMotorList);
 router.get('/motor/:id', motorcontroller.getMotorById);

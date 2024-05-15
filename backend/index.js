@@ -3,17 +3,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const carRoutes = require('./routes/routes');
 const http = require('http');
-const socketIo = require('socket.io'); // Add this line
-const faker = require('faker');
 const carcontroller=require('./controller/carContoller');
-const httpProxy = require('http-proxy');
 const app = express();
 const port = 3000;
 
-const proxy=httpProxy.createProxyServer();
 
 
-let entities = [];
+
 
 app.use(cors({
   origin: 'http://localhost:5173',
