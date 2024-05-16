@@ -6,10 +6,10 @@ var list = [];
 var isValid = false;
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "mppdb",
+  host:"cardatabase.crw0ce86sgbc.eu-north-1.rds.amazonaws.com",
+    user:"admin",
+    password:"423607raul",
+    database:"MppDB",
 });
 
 function addCarToList() {
@@ -28,7 +28,7 @@ function addCarToList() {
 async function verifyToken(token) {
   const result = await db
     .promise()
-    .query("SELECT token FROM User WHERE token=?", [token])
+    .query("SELECT token FROM user WHERE token=?", [token])
     .then(([rows, fields]) => {
       return rows;
     });
@@ -36,7 +36,7 @@ async function verifyToken(token) {
 }
 
 const getCarList = (req, res) => {
-  const query = "SELECT * FROM Cars";
+  const query = "SELECT * FROM cars";
   db.query(query, (err, result) => {
     if (err) {
       console.log(err);
@@ -48,7 +48,7 @@ const getCarList = (req, res) => {
 
 const getCarById = (req, res) => {
   const id = req.params.id;
-  const query = "SELECT * FROM Cars WHERE id=?";
+  const query = "SELECT * FROM cars WHERE id=?";
   db.query(query, [id], (err, result) => {
     if (err) {
       console.log(err);
@@ -66,7 +66,7 @@ const addCar = (req, res) => {
     if (result.length > 0) {
       if (result[0].token === token) {
         const query =
-          "Insert into Cars (id,name,model,color,price,motorId) values(?,?,?,?,?,?)";
+          "Insert into cars (id,name,model,color,price,motorId) values(?,?,?,?,?,?)";
         db.query(
           query,
           [
@@ -103,7 +103,7 @@ const updateCar = (req, res) => {
         if (result.length > 0) {
         if (result[0].token === token) {
             const query =
-            "UPDATE Cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
+            "UPDATE cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
             db.query(
             query,
             [
@@ -140,7 +140,7 @@ const deleteCar = (req, res) => {
     verifyToken(token).then((result) => {
         if (result.length > 0) {
         if (result[0].token === token) {
-            const query = "DELETE FROM Cars WHERE id=?";
+            const query = "DELETE FROM cars WHERE id=?";
             db.query(query, [id], (err, result) => {
             if (err) {
                 console.log(err);
@@ -159,7 +159,7 @@ const deleteCar = (req, res) => {
 
 const deleteCars = (req, res) => {
   const ids = req.body;
-  const query = "DELETE FROM Cars WHERE id=?";
+  const query = "DELETE FROM cars WHERE id=?";
   ids.forEach((id) => {
     db.query(query, [id], (err, result) => {
       if (err) {
@@ -170,7 +170,7 @@ const deleteCars = (req, res) => {
 };const addCars = (req, res) => {
   const cars = req.body;
   //Verify if car already exists or if the car has all the required fields
-  const query = "Insert into Cars (id,name,model,color,price,motorId) values ?";
+  const query = "Insert into cars (id,name,model,color,price,motorId) values ?";
   cars.forEach((car) => {
     db.query(
       query,
@@ -186,7 +186,7 @@ const deleteCars = (req, res) => {
 const updateCars = (req, res) => {
   const cars = req.body;
   const query =
-    "UPDATE Cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
+    "UPDATE cars SET name=?,model=?,color=?,price=?,motorId=? WHERE id=?";
   cars.forEach((car) => {
     db.query(
       query,

@@ -6,11 +6,9 @@ import GlobalContext from '../GlobalContext';
 import {useContext} from 'react';
 function NotLoggedInFunction(token) {
     if(token==""){
-        console.log("Not logged in");
         return false;
     }
     else{
-        console.log("Logged in");
         return true;
     }
 }
