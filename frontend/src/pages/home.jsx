@@ -10,10 +10,11 @@ import MotorContainer from '../components/MotorContainer';
 import GlobalContext from '../GlobalContext';
 import SeeCredentialsButton from '../components/SeeCredentialsButton';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction';
-import ValidateTokenFunction from '../functions/ValidateTokenFunction';
 
-function populatelists(setCarlist,setMotorlist){
-  axios.get('http://localhost:3000/')
+const EndPoint="http://16.171.43.69:3000/";
+
+function populatelists(setCarlist,setMotorlist,token){
+  axios.post(EndPoint,[token])
   .then((response) => {
     setCarlist(response.data);
   })
@@ -21,7 +22,7 @@ function populatelists(setCarlist,setMotorlist){
     console.log(error);
   });
 
-  axios.get('http://localhost:3000/motor')
+  axios.post(EndPoint+'motor',[token])
   .then((response) => {
     setMotorlist(response.data);
   })
@@ -42,7 +43,9 @@ function Home() {
       }
     const setCarlist=globalData.setCarlist;
     const setMotorlist=globalData.setMotorlist;
-    populatelists(setCarlist,setMotorlist);
+    useEffect(() => {
+    populatelists(setCarlist,setMotorlist,token);
+    }, []);
     const setToken=globalData.setToken;
     const user=globalData.user;
     const password=globalData.password;
@@ -60,7 +63,7 @@ function Home() {
       <SeeCredentialsButton/>
       </div>
       <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
-        <button onClick={()=>{ValidateTokenFunction(user,password,token,setresponse);console.log(response)}}>Test</button>
+        <button >Test</button>
         <button style={{width:"140px", height:"100px"}} onClick={() => {setToken("");navigate(`/login`);  }}>Logout</button>
       </div>
       <AddButton/>

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext.jsx';
+const EndPoint="http://16.171.43.69:3000/";
 function saveChanges({carId,carName,carModel,carColor,carPrice,motorId,token})
     {
         console.log("Saving changes!");
@@ -16,7 +17,7 @@ function saveChanges({carId,carName,carModel,carColor,carPrice,motorId,token})
             price: carPrice
         ,motorId: motorId
         }
-        axios.put(`http://localhost:3000/cars/`, [newCar,token]).catch((error) => {
+        axios.put(EndPoint+`cars/`, [newCar,token]).catch((error) => {
             console.log(error);
         });
         

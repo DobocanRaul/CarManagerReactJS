@@ -1,13 +1,14 @@
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import axios from 'axios';
+const EndPoint="http://16.171.43.69:3000/";
 function tryRegister(user,password,navigate){
     console.log("Registering");
     const usercredentials={
         username:user,
         password:password
     };
-    axios.post('http://localhost:3000/register', usercredentials)
+    axios.post(EndPoint+'register', usercredentials)
       .then(function (response) {
         console.log(response);
         if(response.data !="Username already exists"){

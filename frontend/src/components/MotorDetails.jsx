@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+const EndPoint="http://16.171.43.69:3000/";
 function getMotorDetails(MotorId) {
-    return axios.get(`http://localhost:3000/motor/${MotorId}`);
+    return axios.get(EndPoint+`motor/${MotorId}`);
 }
 function MotorDetails({MotorId}) {
     const [motor, setMotor] = useState(null);

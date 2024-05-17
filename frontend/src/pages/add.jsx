@@ -6,6 +6,7 @@ import axios from 'axios';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext.jsx';
+const EndPoint="http://16.171.43.69:3000/";
 function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token) {
     const newCar = {
         id: carId,
@@ -17,7 +18,7 @@ function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,to
     }
     
     
-    axios.post(`http://localhost:3000/addCar`, [newCar,token]).then((response) => {
+    axios.post(EndPoint+`addCar`, [newCar,token]).then((response) => {
         console.log(response);
         setlist([...list, newCar]);
     }).catch((error) => {

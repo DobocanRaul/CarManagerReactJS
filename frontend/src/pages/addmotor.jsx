@@ -5,6 +5,7 @@ import axios from 'axios';
 import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext';
+const EndPoint="http://16.171.43.69:3000/";
 function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm,token,setlist,list) {
     const newMotor = {
         id: motorId,
@@ -13,7 +14,7 @@ function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm,token,setlist,lis
         cubic_cm: MotorCubicCm
     }
     console.log(newMotor);
-    axios.post('http://localhost:3000/addMotor', [newMotor,token]).then((response) => {
+    axios.post(EndPoint+'addMotor', [newMotor,token]).then((response) => {
         console.log(response);
         setlist([...list, newMotor]);
     }).catch((error) => {

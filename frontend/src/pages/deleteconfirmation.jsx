@@ -5,9 +5,10 @@ import NotLoggedInFunction from '../functions/NotLoggedInFunction';
 import {useContext} from 'react';
 import GlobalContext from '../GlobalContext';
 import { useEffect } from 'react';
+const EndPoint="http://16.171.43.69:3000/";
 function populatelists(setCarlist,setMotorlist){
 
-    axios.get('http://localhost:3000/')
+    axios.get(EndPoint)
     .then((response) => {
         setCarlist(response.data);
     })
@@ -15,7 +16,7 @@ function populatelists(setCarlist,setMotorlist){
       console.log(error);
     });
   
-    axios.get('http://localhost:3000/motor')
+    axios.get(EndPoint+'motor')
     .then((response) => {
       setMotorlist(response.data);
     })
@@ -26,7 +27,7 @@ function populatelists(setCarlist,setMotorlist){
   
 
 function deleteCar(carId,setCarlist,setMotorlist,token) {
-    axios.delete(`http://localhost:3000/cars/${carId}/${token}`).catch((error) => {
+    axios.delete(EndPoint+`cars/${carId}/${token}`).catch((error) => {
         console.log(error);
     }
     );

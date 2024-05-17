@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+const EndPoint="http://16.171.43.69:3000/";
 function checkIfConnected() {
     const [isConnected, setIsConnected] = useState(false);
     useEffect(() => {
-    axios.get('http://localhost:3000/')
+    axios.get(EndPoint)
     .then((response) => {
       setIsConnected(true);
     })

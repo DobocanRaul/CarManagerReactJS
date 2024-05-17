@@ -23,7 +23,9 @@ async function verifyToken(token) {
   }
 
 const getMotorList = (req, res) => {
-    const query="SELECT * FROM motors";
+    const param = req.body[0];
+    const query = "SELECT * FROM motors WHERE username = (SELECT username FROM user WHERE token ='"+param+"') OR 'admin' = (SELECT username FROM user WHERE token = '"+param+"');";
+  
     db.query(query,(err,result)=>{
         if(err){
             console.log(err);

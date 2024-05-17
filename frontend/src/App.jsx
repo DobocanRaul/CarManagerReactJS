@@ -19,65 +19,7 @@ import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import GlobalContext from './GlobalContext';
 import ValidateTokenFunction from './functions/ValidateTokenFunction';
-const EndPoint = 'http://localhost:3000/';
-
-function updateChangesCars(carlist,deletedIds){
-  axios.get('http://localhost:3000/')
-  .then((response) => {
-    const data= response.data;
-    const ids= data.map((car) => car.id);
-    carlist.forEach((car) => {
-      if(ids.includes(car.id)){
-        axios.put(`http://localhost:3000/car/${car.id}`, car)
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-
-      }else{
-        axios.post('http://localhost:3000/car', car)
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      }
-    }
-    )
-    deletedIds.forEach((id) => {
-      axios.delete(`http://localhost:3000/car/${id}`)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    })
-  })
-
-}
-
-function populatelists(setCarlist,setMotorlist){
-  axios.get('http://localhost:3000/')
-  .then((response) => {
-    setCarlist(response.data);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-  axios.get('http://localhost:3000/motor')
-  .then((response) => {
-    setMotorlist(response.data);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
-
+const EndPoint = "http://localhost:3000/";
 
 
 function App() {

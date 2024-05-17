@@ -4,9 +4,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import GlobalContext from '../GlobalContext';
 import {useContext} from 'react';
-
-function populatelists(setCarlist,setMotorlist){
-  axios.get('http://localhost:3000/')
+//const EndPoint = "http://localhost:3000/";
+const EndPoint="http://16.171.43.69:3000/";
+function populatelists(setCarlist,setMotorlist,token){
+  axios.post(EndPoint,[token])
   .then((response) => {
     setCarlist(response.data);
   })
@@ -14,7 +15,7 @@ function populatelists(setCarlist,setMotorlist){
     console.log(error);
   });
 
-  axios.get('http://localhost:3000/motor')
+  axios.post(EndPoint+'motor',[token])
   .then((response) => {
     setMotorlist(response.data);
   })
@@ -34,8 +35,8 @@ function tryLogin(user,password,globalData,navigate){
         username:user,
         password:password
   };
-  
-    axios.post('http://localhost:3000/login', usercredentials)
+  console.log(EndPoint+'login');
+    axios.post(EndPoint+'login', usercredentials)
       .then(function (response) {
         if(response.data!="Invalid credentials"){
             alert("Login successful");

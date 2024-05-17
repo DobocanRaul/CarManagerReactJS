@@ -1,10 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+const EndPoint="http://16.171.43.69:3000/";
 function CarDetails({carId}) {
     const [car, setCar] = useState(null);
     useEffect(() => {
-        axios.get(`http://localhost:3000/car/${carId}`)
+        axios.get(EndPoint+`car/${carId}`)
         .then((response) => {
             setCar(response.data[0]);
         })
