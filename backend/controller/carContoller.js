@@ -36,11 +36,10 @@ async function verifyToken(token) {
 }
 
 const getCarList = (req, res) => {
-  const param = req.body;
+  const param = req.body[0];
   console.log(param);
   const query = `SELECT * FROM cars WHERE username = (SELECT username FROM user WHERE token ="?") OR 'admin' = (SELECT username FROM user WHERE token = "?");`;
   db.query(query,[param,param],(err, result) => {
-    console.log(query);
     if (err) {
       console.log(err);
     } else {
