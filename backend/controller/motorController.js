@@ -55,8 +55,8 @@ const addMotor = (req, res) => {
     verifyToken(token).then((result) => {
         if (result.length > 0) {
             if(result[0].token==token){
-                const query="Insert into motors (id,motor_type,horsepower,cubic_cm) values(?,?,?,?)";
-                db.query(query,[newMotor.id,newMotor.motor_type,newMotor.horsepower,newMotor.cubic_cm],(err,result)=>{
+                const query="Insert into motors (id,motor_type,horsepower,cubic_cm,username) values(?,?,?,?,?)";
+                db.query(query,[newMotor.id,newMotor.motor_type,newMotor.horsepower,newMotor.cubic_cm,newMotor.username],(err,result)=>{
                     if(err){
                         console.log(err);
                     }

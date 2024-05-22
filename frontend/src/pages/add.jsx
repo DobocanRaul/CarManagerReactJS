@@ -7,14 +7,15 @@ import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext.jsx';
 const EndPoint="http://16.171.43.69:3000/";
-function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token) {
+function AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token,user) {
     const newCar = {
         id: carId,
         name: carName,
         model: carModel,
         color: carColor,
         price: carPrice,
-        motorId: motorId
+        motorId: motorId,
+        username: user
     }
     
     
@@ -41,6 +42,7 @@ function AddPage(){
     const list=globalData.carlist;
     const setlist=globalData.setCarlist;
     const motorIds=globalData.motorlist;
+    const user=globalData.user;
     const [carId, setCarId] = useState("");
     const [carName, setCarName] = useState("");
     const [carModel, setCarModel] = useState("");
@@ -96,7 +98,7 @@ function AddPage(){
                 </p>
             </section>
             <div class="buttongap">
-            <button onClick={() => {AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token);
+            <button onClick={() => {AddCar(list,setlist,carId,carName,carModel,carColor,carPrice,motorId,token,user);
              navigate(`/cars`)
             }
             }>Add</button>

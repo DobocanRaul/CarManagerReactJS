@@ -67,7 +67,7 @@ const addCar = (req, res) => {
     if (result.length > 0) {
       if (result[0].token === token) {
         const query =
-          "Insert into cars (id,name,model,color,price,motorId) values(?,?,?,?,?,?)";
+          "Insert into cars (id,name,model,color,price,motorId,username) values(?,?,?,?,?,?,?)";
         db.query(
           query,
           [
@@ -77,6 +77,7 @@ const addCar = (req, res) => {
             newCar.color,
             newCar.price,
             newCar.motorId,
+            newCar.username,
           ],
           (err, result) => {
             if (err) {

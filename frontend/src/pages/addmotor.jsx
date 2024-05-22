@@ -6,12 +6,13 @@ import NotLoggedInFunction from '../functions/NotLoggedInFunction.jsx';
 import { useContext } from 'react';
 import GlobalContext from '../GlobalContext';
 const EndPoint="http://16.171.43.69:3000/";
-function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm,token,setlist,list) {
+function Add(motorId, MotorType, MotorHorsepower, MotorCubicCm,token,setlist,list,user) {
     const newMotor = {
         id: motorId,
         motor_type: MotorType,
         horsepower: MotorHorsepower,
-        cubic_cm: MotorCubicCm
+        cubic_cm: MotorCubicCm,
+        username: user
     }
     console.log(newMotor);
     axios.post(EndPoint+'addMotor', [newMotor,token]).then((response) => {
@@ -39,6 +40,7 @@ function AddMotor() {
     const [motorCubicCm, setMotorCubicCm] = useState("");
     const setmotorlist=globalData.setMotorlist;
     const motorlist=globalData.motorlist;
+    const user=globalData.user;
     const handleMotorId = (e) => {
         setMotorId(e.target.value);
     }
@@ -71,7 +73,7 @@ function AddMotor() {
             </section>
             <div class="buttongap"> 
                 <button onClick={() => {
-                    Add(motorId,motorType,motorHorsepower,motorCubicCm,token,setmotorlist,motorlist);
+                    Add(motorId,motorType,motorHorsepower,motorCubicCm,token,setmotorlist,motorlist,user);
                     navigate(`/cars`)
                 }}>Add Motor</button>
                 <HomeButton />
